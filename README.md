@@ -2,7 +2,7 @@
 
 
 ERD:
-![ERD](views/layouts/erd.jpg "ERD")
+![erd](https://raw.githubusercontent.com/skylarkJ/sport-api/8e6e5652f88fffba4fd057ad3ec123ce0a2da809/app/views/layouts/erd.jpg "ERD")
 
 ## [License](LICENSE)
 
