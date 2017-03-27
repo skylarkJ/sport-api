@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20170325155105) do
   create_table "favorites", force: :cascade do |t|
     t.string   "title"
     t.datetime "date"
-    t.string   "videoId"
+    t.string   "video_id"
     t.string   "image"
     t.integer  "user_id",    null: false
     t.datetime "created_at", null: false
