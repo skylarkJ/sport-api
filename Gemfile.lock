@@ -177,6 +177,8 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    yt (0.28.5)
+      activesupport
 
 PLATFORMS
   ruby
@@ -199,9 +201,10 @@ DEPENDENCIES
   rubocop (~> 0.46)
   spring (~> 1.6)
   spring-commands-rspec (~> 1.0)
+  yt (~> 0.28.0)
 
 RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.5
+   1.14.3
