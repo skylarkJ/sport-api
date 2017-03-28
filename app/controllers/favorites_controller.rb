@@ -1,4 +1,4 @@
-class FavoritesController < ApplicationController
+class FavoritesController < OpenReadController
   before_action :set_favorite, only: [:show, :update, :destroy]
 
   # GET /favorites
@@ -15,7 +15,7 @@ class FavoritesController < ApplicationController
 
   # POST /favorites
   def create
-    @favorite = Favorite.new(favorite_params)
+    @favorite = current_user.favorites.build(favorite_params)
 
     if @favorite.save
       render json: @favorite, status: :created, location: @favorite
@@ -38,14 +38,18 @@ class FavoritesController < ApplicationController
     @favorite.destroy
   end
 
-  private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_favorite
       @favorite = Favorite.find(params[:id])
     end
 
+    private :set_favorite
+
     # Only allow a trusted parameter "white list" through.
     def favorite_params
-      params.require(:favorite).permit(:title, :date, :videoId, :image)
+      params.require(:favorite).permit(:title, :date, :video_id, :image)
     end
+    private :favorite_params
+
 end
