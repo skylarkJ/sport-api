@@ -18,24 +18,30 @@
 | PATCH  | `/change-password/:id` | `users#changepw`  |
 | DELETE | `/sign-out/:id`        | `users#signout`   |
 
-### For Favorites and Highlights
-Prefix Verb   URI Pattern                    Controller#Action
+### For Favorites
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/favorites`           | `favorites#index`  |
+| POST   | `/favorites`           | `favorites#create` |
 
-favorites GET    /favorites(.:format)           favorites#index
-       POST   /favorites(.:format)           favorites#create
+### For Favorite
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/favorites/:id`       | `favorites#show`   |
+| DELETE | `/favorites/:id`       | `favorites#destroy`|
 
-favorite GET    /favorites/:id(.:format)       favorites#show
+### Highlights
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/highlights`          | `highlight#index`  |
 
-       PATCH  /favorites/:id(.:format)       favorites#update
-       PUT    /favorites/:id(.:format)       favorites#update
+### For Users and User
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/users`               | `users#index`      |
+| GET    | `/users/:id`           | `users#show`       |
 
-       DELETE /favorites/:id(.:format)       favorites#destroy
-
-highlights GET    /highlights(.:format)          highlight#index
- users GET    /users(.:format)               users#index
-  user GET    /users/:id(.:format)           users#show
-
-
+ 
 ### Installation instructions - To Access YouTube APIs
 [`Repo - Ruby Client for the YouTube API`](https://github.com/Fullscreen/yt)
 [Documentation - Ruby Gems Yt](http://www.rubydoc.info/gems/yt/frames)
@@ -128,6 +134,7 @@ highlight. Then I had to correct that in every file which was annoying.
 [ember auth](https://github.com/skylarkJ/ember-auth)
 
 ## Structure
+### Curl Test for Search
 I have creaded one more script called search.sh to test the API for YouTube NHL Hockey.
 It can be found under `scripts/search.sh content:`
 
@@ -159,8 +166,69 @@ X-Runtime: 3.279595
 Vary: Origin
 Transfer-Encoding: chunked
 ```
+### Search: list - explanations and a little snippets of code
+By default youtube search result identifies video, channel and playlist resources.
+But I configured queries to only get a specific type of resource.
+In the `app/controllers/higlight-controller.js` I have picked `videos = Yt::Collections::Videos.new`
+and `videos.where(q: 'Fullscreen CreatorPlatform', safe_search: 'none').size #=> 324`
+from this snippet:
+```
+Yt::Collections::Videos
 
+Use Yt::Collections::Videos to:
 
+search for videos
+videos = Yt::Collections::Videos.new
+videos.where(order: 'viewCount').first.title #=>  "PSY - GANGNAM STYLE"
+videos.where(q: 'Fullscreen CreatorPlatform', safe_search: 'none').size #=> 324
+videos.where(chart: 'mostPopular', video_category_id: 44).first.title #=> "SINISTER - Trailer"
+videos.where(id: 'jNQXAC9IVRw,invalid').map(&:title) #=> ["Fullscreen Creator Platform"]
+```
+source: [Documentation - Ruby Gems Yt](http://www.rubydoc.info/gems/yt/frames)
+
+`My snippet of searching for NHL team and getting back 25 results instead as default 100 000:`
+```
+videos = Yt::Collections::Videos.new
+
+render json: videos.where(q: params[:query] + ' NHL Team').take(25)
+```
+### My model is called Favorite
+```
+class Favorite < ApplicationRecord
+  belongs_to :user
+  validates :title, :user, :date, :video_id, :image, presence: true
+end
+```
+
+### Migration of favorites
+```
+class CreateFavorites < ActiveRecord::Migration[5.0]
+  def change
+    create_table :favorites do |t|
+      t.string :title
+      t.datetime :date
+      t.string :video_id
+      t.string :image
+      t.references :user, index: true, foreign_key: true, null: false
+      t.timestamps
+    end
+  end
+end
+
+```
+### Config/routes
+```
+Rails.application.routes.draw do
+  resources :favorites
+  resources :examples, except: [:new, :edit]
+  post '/sign-up' => 'users#signup'
+  post '/sign-in' => 'users#signin'
+  delete '/sign-out/:id' => 'users#signout'
+  patch '/change-password/:id' => 'users#changepw'
+  get '/highlights' => 'highlight#index'
+  resources :users, only: [:index, :show]
+end
+```
 ## [License](LICENSE)
 
 1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
