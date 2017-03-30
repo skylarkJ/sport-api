@@ -24,15 +24,6 @@ class FavoritesController < ProtectedController
     end
   end
 
-  # PATCH/PUT /favorites/1
-  def update
-    if @favorite.update(favorite_params)
-      render json: @favorite
-    else
-      render json: @favorite.errors, status: :unprocessable_entity
-    end
-  end
-
   # DELETE /favorites/1
   def destroy
     @favorite.destroy
