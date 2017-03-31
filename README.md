@@ -1,5 +1,3 @@
-[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
-
 ## Links to my client-side application, deployed client app, and deployed api
 [sport-client](https://github.com/skylarkJ/sport-client)
 [sport-api](https://github.com/skylarkJ/sport-api)
@@ -41,7 +39,7 @@
 | GET    | `/users`               | `users#index`      |
 | GET    | `/users/:id`           | `users#show`       |
 
- 
+
 ### Installation instructions - To Access YouTube APIs
 [`Repo - Ruby Client for the YouTube API`](https://github.com/Fullscreen/yt)
 [Documentation - Ruby Gems Yt](http://www.rubydoc.info/gems/yt/frames)
@@ -192,6 +190,21 @@ videos = Yt::Collections::Videos.new
 
 render json: videos.where(q: params[:query] + ' NHL Team').take(25)
 ```
+
+#### List of Yt::Video Methods Available
+```
+video.id # => "BPNYv0vd78A"
+→ Yt docsvideo.title # => "Yt info"
+→ Yt docsvideo.description # => "A test video for the Yt gem"
+→ Yt docsvideo.published_at # => 2015-03-31 06:46:46 UTC
+→ Yt docsvideo.thumbnail_url # => "https://i.ytimg.com/vi/BPNYv0vd78A/default.jpg"
+→ Yt docsvideo.channel_id # => "UCwCnUcLcb9-eSrHa_RQGkQQ"
+→ Yt docsvideo.channel_title # => "Yt test Channel"
+→ Yt docsvideo.category_id # => "22"
+→ Yt docsvideo.category_title # => "People & Blogs"
+
+```
+
 ### My model is called Favorite
 ```
 class Favorite < ApplicationRecord
@@ -229,8 +242,3 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show]
 end
 ```
-## [License](LICENSE)
-
-1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
-1.  All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
