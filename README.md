@@ -1,4 +1,4 @@
-## Links to my client-side application, deployed client app, and deployed api
+## Links To My Client-Side Application, Deployed Client App, And Deployed Api
 [sport-client](https://github.com/skylarkJ/sport-client)
 [sport-api](https://github.com/skylarkJ/sport-api)
 [deployed client](https://skylarkj.github.io/sport-client/)
@@ -7,7 +7,7 @@
 ## ERD
 ![erd](https://raw.githubusercontent.com/skylarkJ/sport-api/8e6e5652f88fffba4fd057ad3ec123ce0a2da809/app/views/layouts/erd.jpg "ERD")
 
-## A list of my API routes
+## A List Of My API Routes
 ### For User
 | Verb   | URI Pattern            | Controller#Action |
 |--------|------------------------|-------------------|
@@ -33,14 +33,14 @@
 |--------|------------------------|--------------------|
 | GET    | `/highlights`          | `highlight#index`  |
 
-### For Users and User
+### For Users And User
 | Verb   | URI Pattern            | Controller#Action  |
 |--------|------------------------|--------------------|
 | GET    | `/users`               | `users#index`      |
 | GET    | `/users/:id`           | `users#show`       |
 
 
-### Installation instructions - To Access YouTube APIs
+### Installation Instructions - To Access YouTube APIs
 [`Repo - Ruby Client for the YouTube API`](https://github.com/Fullscreen/yt)
 [Documentation - Ruby Gems Yt](http://www.rubydoc.info/gems/yt/frames)
 1. I have put into Gemfile  `gem 'yt', '~> 0.28.0'`
@@ -59,7 +59,7 @@ Installed with `bundle install`.
 -   [`postgres`](http://www.postgresql.org)
 -   [`Ruby Gems Yt`](http://www.rubydoc.info/gems/yt/frames)
 
-### Installation for Setting Up The Project
+### Installation For Setting Up The Project
 
 1.  I have [Downloaded](../../archive/master.zip) this template.
 2.  Unzipped and renamed the template directory.
@@ -102,18 +102,18 @@ Installed with `bundle install`.
      heroku run rake db:migrate db:seed db:examples
      ```
 
-## Explanations of the technologies used
+## Explanations Of The Technologies Used
 I have used javascript front end framework Ember.js while Ruby on Rails on the back end.
 YouTube highlights are rendered in the browser through a controller in the backend -
 making queries to YouTube APIs.
 
-## A couple paragraphs about the general approach you took
+## A Couple Paragraphs About The General Approach I Took
 I have picked to build an application that would solve the inconvinient jumping of sport fans of any kinds from one application to another to catch up on sport highlights in their busy lives.
 Now with the mind of 4 days to complete a project I decided to go with
 highlights for just NHL teams. There are 30 teams available and all highligts accessible
 from YouTube APIs. The search is sorted from the top to bottom according to the latest upload. In the future I would like to store third party APIs from several sources for several team sports.
 
-## Descriptions of any unsolved problems or major hurdles you had to overcome
+## Descriptions Of Ay Unsolved Problems Or Major Hurdles You Had To Overcome
 The major hurdle was a deployment of Ember client side to the GH-pages. In terms
 of own development, I had a problem for some time to figure out how to use YouTube
 Apis because their main source of documentation is not current. I have found
@@ -122,17 +122,17 @@ result of 100 000 items so I had to figure out how to limit that to just 25 item
 Another issue - I created a model with videoId at first instead of video_id so it took me also for a while to realize why the youTube doesn't catch the request fo the video
 highlight. Then I had to correct that in every file which was annoying.
 
-## Both client and api repositories must be pinned on your GitHub page
+## Both Client And Api Repositories Must Be Pinned On Your GitHub Page
 [`pinned client and api repositories`](https://github.com/skylarkJ)
 
-## rails-api-template
+## Rails-Api-Template
 [rails-api](https://github.com/skylarkJ/rails-api-template) - includes authentication
 
-## ember-auth-template
+## Ember-Auth-Template
 [ember auth](https://github.com/skylarkJ/ember-auth)
 
 ## Structure
-### Curl Test for Search
+### Curl Test For Search
 I have creaded one more script called search.sh to test the API for YouTube NHL Hockey.
 It can be found under `scripts/search.sh content:`
 
@@ -164,7 +164,7 @@ X-Runtime: 3.279595
 Vary: Origin
 Transfer-Encoding: chunked
 ```
-### Search: list - explanations and a little snippets of code
+### Search: List - Explanations And A Little Snippets Of Code
 By default youtube search result identifies video, channel and playlist resources.
 But I configured queries to only get a specific type of resource.
 In the `app/controllers/higlight-controller.js` I have picked `videos = Yt::Collections::Videos.new`
@@ -191,7 +191,7 @@ videos = Yt::Collections::Videos.new
 render json: videos.where(q: params[:query] + ' NHL Team').take(25)
 ```
 
-#### List of Yt::Video Methods Available
+#### List Of Yt::Video Methods Available
 ```
 video.id # => "BPNYv0vd78A"
 → Yt docsvideo.title # => "Yt info"
@@ -205,7 +205,7 @@ video.id # => "BPNYv0vd78A"
 
 ```
 
-### My model is called Favorite
+### My Model Is Called Favorite
 ```
 class Favorite < ApplicationRecord
   belongs_to :user
@@ -213,7 +213,7 @@ class Favorite < ApplicationRecord
 end
 ```
 
-### Migration of favorites
+### Migration Of favorites
 ```
 class CreateFavorites < ActiveRecord::Migration[5.0]
   def change
