@@ -1,6 +1,4 @@
-[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
-
-## Links to my client-side application, deployed client app, and deployed api
+## Links To My Client-Side Application, Deployed Client App, And Deployed Api
 [sport-client](https://github.com/skylarkJ/sport-client)
 [sport-api](https://github.com/skylarkJ/sport-api)
 [deployed client](https://skylarkj.github.io/sport-client/)
@@ -9,7 +7,7 @@
 ## ERD
 ![erd](https://raw.githubusercontent.com/skylarkJ/sport-api/8e6e5652f88fffba4fd057ad3ec123ce0a2da809/app/views/layouts/erd.jpg "ERD")
 
-## A list of my API routes
+## A List Of My API Routes
 ### For User
 | Verb   | URI Pattern            | Controller#Action |
 |--------|------------------------|-------------------|
@@ -18,25 +16,31 @@
 | PATCH  | `/change-password/:id` | `users#changepw`  |
 | DELETE | `/sign-out/:id`        | `users#signout`   |
 
-### For Favorites and Highlights
-Prefix Verb   URI Pattern                    Controller#Action
+### For Favorites
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/favorites`           | `favorites#index`  |
+| POST   | `/favorites`           | `favorites#create` |
 
-favorites GET    /favorites(.:format)           favorites#index
-       POST   /favorites(.:format)           favorites#create
+### For Favorite
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/favorites/:id`       | `favorites#show`   |
+| DELETE | `/favorites/:id`       | `favorites#destroy`|
 
-favorite GET    /favorites/:id(.:format)       favorites#show
+### Highlights
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/highlights`          | `highlight#index`  |
 
-       PATCH  /favorites/:id(.:format)       favorites#update
-       PUT    /favorites/:id(.:format)       favorites#update
-
-       DELETE /favorites/:id(.:format)       favorites#destroy
-
-highlights GET    /highlights(.:format)          highlight#index
- users GET    /users(.:format)               users#index
-  user GET    /users/:id(.:format)           users#show
+### For Users And User
+| Verb   | URI Pattern            | Controller#Action  |
+|--------|------------------------|--------------------|
+| GET    | `/users`               | `users#index`      |
+| GET    | `/users/:id`           | `users#show`       |
 
 
-### Installation instructions - To Access YouTube APIs
+### Installation Instructions - To Access YouTube APIs
 [`Repo - Ruby Client for the YouTube API`](https://github.com/Fullscreen/yt)
 [Documentation - Ruby Gems Yt](http://www.rubydoc.info/gems/yt/frames)
 1. I have put into Gemfile  `gem 'yt', '~> 0.28.0'`
@@ -55,7 +59,7 @@ Installed with `bundle install`.
 -   [`postgres`](http://www.postgresql.org)
 -   [`Ruby Gems Yt`](http://www.rubydoc.info/gems/yt/frames)
 
-### Installation for Setting Up The Project
+### Installation For Setting Up The Project
 
 1.  I have [Downloaded](../../archive/master.zip) this template.
 2.  Unzipped and renamed the template directory.
@@ -98,18 +102,18 @@ Installed with `bundle install`.
      heroku run rake db:migrate db:seed db:examples
      ```
 
-## Explanations of the technologies used
+## Explanations Of The Technologies Used
 I have used javascript front end framework Ember.js while Ruby on Rails on the back end.
 YouTube highlights are rendered in the browser through a controller in the backend -
 making queries to YouTube APIs.
 
-## A couple paragraphs about the general approach you took
+## A Couple Paragraphs About The General Approach I Took
 I have picked to build an application that would solve the inconvinient jumping of sport fans of any kinds from one application to another to catch up on sport highlights in their busy lives.
 Now with the mind of 4 days to complete a project I decided to go with
 highlights for just NHL teams. There are 30 teams available and all highligts accessible
 from YouTube APIs. The search is sorted from the top to bottom according to the latest upload. In the future I would like to store third party APIs from several sources for several team sports.
 
-## Descriptions of any unsolved problems or major hurdles you had to overcome
+## Descriptions Of Ay Unsolved Problems Or Major Hurdles You Had To Overcome
 The major hurdle was a deployment of Ember client side to the GH-pages. In terms
 of own development, I had a problem for some time to figure out how to use YouTube
 Apis because their main source of documentation is not current. I have found
@@ -118,16 +122,17 @@ result of 100 000 items so I had to figure out how to limit that to just 25 item
 Another issue - I created a model with videoId at first instead of video_id so it took me also for a while to realize why the youTube doesn't catch the request fo the video
 highlight. Then I had to correct that in every file which was annoying.
 
-## Both client and api repositories must be pinned on your GitHub page
+## Both Client And Api Repositories Must Be Pinned On Your GitHub Page
 [`pinned client and api repositories`](https://github.com/skylarkJ)
 
-## rails-api-template
+## Rails-Api-Template
 [rails-api](https://github.com/skylarkJ/rails-api-template) - includes authentication
 
-## ember-auth-template
+## Ember-Auth-Template
 [ember auth](https://github.com/skylarkJ/ember-auth)
 
 ## Structure
+### Curl Test For Search
 I have creaded one more script called search.sh to test the API for YouTube NHL Hockey.
 It can be found under `scripts/search.sh content:`
 
@@ -159,10 +164,81 @@ X-Runtime: 3.279595
 Vary: Origin
 Transfer-Encoding: chunked
 ```
+### Search: List - Explanations And A Little Snippets Of Code
+By default youtube search result identifies video, channel and playlist resources.
+But I configured queries to only get a specific type of resource.
+In the `app/controllers/higlight-controller.js` I have picked `videos = Yt::Collections::Videos.new`
+and `videos.where(q: 'Fullscreen CreatorPlatform', safe_search: 'none').size #=> 324`
+from this snippet:
+```
+Yt::Collections::Videos
 
+Use Yt::Collections::Videos to:
 
-## [License](LICENSE)
+search for videos
+videos = Yt::Collections::Videos.new
+videos.where(order: 'viewCount').first.title #=>  "PSY - GANGNAM STYLE"
+videos.where(q: 'Fullscreen CreatorPlatform', safe_search: 'none').size #=> 324
+videos.where(chart: 'mostPopular', video_category_id: 44).first.title #=> "SINISTER - Trailer"
+videos.where(id: 'jNQXAC9IVRw,invalid').map(&:title) #=> ["Fullscreen Creator Platform"]
+```
+source: [Documentation - Ruby Gems Yt](http://www.rubydoc.info/gems/yt/frames)
 
-1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
-1.  All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
+`My snippet of searching for NHL team and getting back 25 results instead as default 100 000:`
+```
+videos = Yt::Collections::Videos.new
+
+render json: videos.where(q: params[:query] + ' NHL Team').take(25)
+```
+
+#### List Of Yt::Video Methods Available
+```
+video.id # => "BPNYv0vd78A"
+→ Yt docsvideo.title # => "Yt info"
+→ Yt docsvideo.description # => "A test video for the Yt gem"
+→ Yt docsvideo.published_at # => 2015-03-31 06:46:46 UTC
+→ Yt docsvideo.thumbnail_url # => "https://i.ytimg.com/vi/BPNYv0vd78A/default.jpg"
+→ Yt docsvideo.channel_id # => "UCwCnUcLcb9-eSrHa_RQGkQQ"
+→ Yt docsvideo.channel_title # => "Yt test Channel"
+→ Yt docsvideo.category_id # => "22"
+→ Yt docsvideo.category_title # => "People & Blogs"
+
+```
+
+### My Model Is Called Favorite
+```
+class Favorite < ApplicationRecord
+  belongs_to :user
+  validates :title, :user, :date, :video_id, :image, presence: true
+end
+```
+
+### Migration Of favorites
+```
+class CreateFavorites < ActiveRecord::Migration[5.0]
+  def change
+    create_table :favorites do |t|
+      t.string :title
+      t.datetime :date
+      t.string :video_id
+      t.string :image
+      t.references :user, index: true, foreign_key: true, null: false
+      t.timestamps
+    end
+  end
+end
+
+```
+### Config/routes
+```
+Rails.application.routes.draw do
+  resources :favorites
+  resources :examples, except: [:new, :edit]
+  post '/sign-up' => 'users#signup'
+  post '/sign-in' => 'users#signin'
+  delete '/sign-out/:id' => 'users#signout'
+  patch '/change-password/:id' => 'users#changepw'
+  get '/highlights' => 'highlight#index'
+  resources :users, only: [:index, :show]
+end
+```
