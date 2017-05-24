@@ -10,7 +10,7 @@ class HighlightController < ApplicationController
       end
       videos = Yt::Collections::Videos.new
 
-      render json: videos.where(q: params[:query] + ' NHL Team').take(25)
+      render json: videos.where(q: params[:query] + ' NHL Team').take(24)
     end
   end
 
